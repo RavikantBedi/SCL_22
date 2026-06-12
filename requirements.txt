@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+polars
+openpyxl
+xlsxwriter
+pyarrow
+duckdb
+python-multipart
+watchdog
+pyyaml
+python-dotenv
+loguru
+pytest
+fastexcel

@@ -1,0 +1,1 @@
+"""Matched assets report generator."""
