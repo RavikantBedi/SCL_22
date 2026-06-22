@@ -155,6 +155,15 @@ class ExcelReporter:
             pl.col("User Name").fill_null("Unknown")
         )
 
+        # Fallback: if user name is "Unknown" and CompName exists, use CompName instead
+        if "CompName" in joined.columns:
+            joined = joined.with_columns(
+                pl.when(pl.col("User Name") == "Unknown")
+                .then(pl.col("CompName").fill_null("Unknown"))
+                .otherwise(pl.col("User Name"))
+                .alias("User Name")
+            )
+
         return joined
 
     # =====================================
@@ -192,6 +201,9 @@ class ExcelReporter:
         # ---------------- ALIGN COLUMNS ----------------
         if "System Model" in matched.columns:
             matched = matched.drop("System Model")
+            
+        if "CompName" in matched.columns:
+            matched = matched.drop("CompName")
 
         target_cols = matched.columns
         for col in target_cols:

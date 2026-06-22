@@ -311,10 +311,9 @@ async def upload_files(
         # DATE FILTER  (applied to matched AND unmatched records)
         # ---------------------------------
         # This removes matched and unmatched records older than the selected timeframe
-        # from the reports. For unmatched, we preserve pure network assets (which have
-        # no date) by allowing null dates.
-        matched = DateFilter().filter_by_months(matched, months=months)
-        unmatched = DateFilter().filter_by_months(unmatched, months=months, keep_nulls=True)
+        # from the reports. All records without a valid date will also be removed.
+        matched = DateFilter().filter_by_months(matched, months=months, keep_nulls=False)
+        unmatched = DateFilter().filter_by_months(unmatched, months=months, keep_nulls=False)
 
         # ---------------------------------
         # REPORTS (written into session folder)
